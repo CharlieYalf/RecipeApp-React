@@ -1,0 +1,77 @@
+.recipe-detail {
+	background-color: #f5f5f5;
+	color: #333;
+	padding: 2rem;
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.recipe-detail__error {
+	color: red;
+	text-align: center;
+	font-size: 2rem;
+}
+
+.recipe-detail__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2rem;
+}
+
+.recipe-detail__title {
+	font-size: 3rem;
+	margin: 0;
+}
+
+.recipe-detail__delete-button {
+	background-color: #ff6347;
+	color: white;
+	border: none;
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.recipe-detail__delete-button:hover {
+	background-color: #e8503a;
+}
+
+.recipe-detail__body {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.recipe-detail__body > * {
+	width: calc(33.33% - 1rem);
+	margin-bottom: 1rem;
+}
+
+/* .recipe-detail__time {
+	display: flex;
+	align-items: center;
+	font-size: 2rem;
+	font-weight: bold;
+}
+ */
+.recipe-detail__icon {
+	margin-right: 0.5rem;
+}
+
+.recipe-detail__label {
+	margin-right: 0.5rem;
+}
+
+.recipe-detail__ingredients .recipe-detail__list,
+.recipe-detail__instructions .recipe-detail__list {
+	margin-top: 0;
+}
+
+.recipe-detail__ingredients .recipe-detail__item,
+.recipe-detail__instructions .recipe-detail__item {
+	font-size: 1.5rem;
+	line-height: 1.5;
+}

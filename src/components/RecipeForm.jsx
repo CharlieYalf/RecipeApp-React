@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { RecipeContext } from "../state/RecipeContext";
+import "../styles/RecipeForm.css";
 
 const RecipeForm = () => {
 	const { selectedRecipe, postRecipe, editRecipe } = useContext(RecipeContext);
@@ -53,69 +54,119 @@ const RecipeForm = () => {
 		setIngredients([...ingredients, ""]);
 	};
 
+	const handleRemoveIngredient = (index) => {
+		const newIngredients = [...ingredients];
+		newIngredients.splice(index, 1);
+		setIngredients(newIngredients);
+	};
+
 	const handleInstructionChange = (event, index) => {
 		const newInstructions = [...instructions];
 		newInstructions[index] = event.target.value;
 		setInstructions(newInstructions);
 	};
 
-	const handleAddInstruction = () => {
+	const handleAddInstructionField = () => {
 		setInstructions([...instructions, ""]);
 	};
 
+	const handleRemoveInstructionField = (index) => {
+		const newInstructions = [...instructions];
+		newInstructions.splice(index, 1);
+		setInstructions(newInstructions);
+	};
+
 	return (
-		<div>
-			<h2>{selectedRecipe ? "Edit" : "Add"} Recipe</h2>
+		<div className="recipe-form">
+			<h2 className="recipe-form__title">{selectedRecipe ? "Edit" : "Add"} Recipe</h2>
 			<form onSubmit={handleSubmit}>
-				<div>
-					<label htmlFor="name">Name:</label>
+				<div className="recipe-form__field">
+					<label className="recipe-form__label" htmlFor="name">
+						Name:
+					</label>
 					<input
+						className="recipe-form__input"
 						type="text"
 						name="name"
 						value={name}
 						onChange={(event) => setName(event.target.value)}
 					/>
 				</div>
-				<div>
-					<label htmlFor="ingredients">Ingredients:</label>
+				<div className="recipe-form__field">
+					<label className="recipe-form__label" htmlFor="ingredients">
+						Ingredients:
+					</label>
 					{ingredients.map((ingredient, index) => (
-						<input
-							key={index}
-							type="text"
-							name={`ingredient-${index}`}
-							value={ingredient}
-							onChange={(event) => handleIngredientChange(event, index)}
-						/>
+						<div key={index} className="recipe-form__ingredient">
+							<input
+								className="recipe-form__input"
+								type="text"
+								value={ingredient}
+								onChange={(event) => handleIngredientChange(event, index)}
+							/>
+							<button
+								className="recipe-form__ingredient-button"
+								type="button"
+								onClick={() => handleRemoveIngredient(index)}
+							>
+								-
+							</button>
+						</div>
 					))}
-					<button type="button" onClick={handleAddIngredient}>
-						Add Ingredient
+					<button
+						className="recipe-form__ingredient-button"
+						type="button"
+						onClick={handleAddIngredient}
+					>
+						+
 					</button>
 				</div>
-				<div>
-					<label htmlFor="instructions">Instructions:</label>
+				<div className="recipe-form__field">
+					<label className="recipe-form__label" htmlFor="instructions">
+						Instructions:
+					</label>
 					{instructions.map((instruction, index) => (
-						<input
-							key={index}
-							type="text"
-							name={`instruction-${index}`}
-							value={instruction}
-							onChange={(event) => handleInstructionChange(event, index)}
-						/>
+						<div key={index} className="recipe-form__instruction">
+							<textarea
+								className="recipe-form__input"
+								type="text"
+								value={instruction}
+								onChange={(event) => handleInstructionChange(event, index)}
+							></textarea>
+							<button
+								className="recipe-form__instruction-button"
+								type="button"
+								onClick={() => handleRemoveInstructionField(index)}
+							>
+								-
+							</button>
+						</div>
 					))}
-					<button type="button" onClick={handleAddInstruction}>
-						Add Instruction
+					<button
+						className="recipe-form__instruction-button"
+						type="button"
+						onClick={handleAddInstructionField}
+					>
+						+
 					</button>
 				</div>
-				<div>
-					<label htmlFor="time">Time (minutes):</label>
+
+				<div className="recipe-form__field">
+					<label className="recipe-form__label" htmlFor="time">
+						Time (minutes):
+					</label>
 					<input
+						className="recipe-form__input"
 						type="number"
 						name="time"
 						value={time}
+						min="1"
 						onChange={(event) => setTime(event.target.value)}
 					/>
 				</div>
-				<button type="submit">{selectedRecipe ? "Save" : "Submit"}</button>
+				<button className="recipe-form__button" type="submit">
+					{selectedRecipe ? "Save Changes" : "Add Recipe"}
+				</button>
 			</form>
 		</div>
 	);
