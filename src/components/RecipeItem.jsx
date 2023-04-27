@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { RecipeContext } from "../state/RecipeContext";
 
-const RecipeItem = ({ recipe }) => {
-	const { name, ingredients, instructions, time } = recipe;
+const RecipeItem = ({ recipe, onEditClick, onDeleteClick }) => {
+	const { name, ingredients, instructions, time, id } = recipe;
+
 	return (
 		<div>
 			<h2>{name}</h2>
@@ -18,6 +21,8 @@ const RecipeItem = ({ recipe }) => {
 				))}
 			</ol>
 			<p>{time} minutes</p>
+			<button onClick={onEditClick}>Edit</button>
+			<button onClick={onDeleteClick}>Delete</button>
 		</div>
 	);
 };

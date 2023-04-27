@@ -1,12 +1,28 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { RecipeContext } from "../state/RecipeContext";
 
 const RecipeForm = () => {
+	const { selectedRecipe, postRecipe, editRecipe } = useContext(RecipeContext);
+
 	const [name, setName] = useState("");
 	const [ingredients, setIngredients] = useState([]);
 	const [instructions, setInstructions] = useState([]);
 	const [time, setTime] = useState("");
-	const { postRecipe } = useContext(RecipeContext);
+
+	// update state if there is a selected recipe
+	useEffect(() => {
+		if (selectedRecipe) {
+			setName(selectedRecipe.name);
+			setIngredients(selectedRecipe.ingredients);
+			setInstructions(selectedRecipe.instructions);
+			setTime(selectedRecipe.time);
+		} else {
+			setName("");
+			setIngredients([]);
+			setInstructions([]);
+			setTime("");
+		}
+	}, [selectedRecipe]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -16,7 +32,11 @@ const RecipeForm = () => {
 			instructions,
 			time,
 		};
-		postRecipe(newRecipe);
+		if (selectedRecipe) {
+			editRecipe(selectedRecipe._id, newRecipe);
+		} else {
+			postRecipe(newRecipe);
+		}
 		setName("");
 		setIngredients([]);
 		setInstructions([]);
@@ -45,7 +65,7 @@ const RecipeForm = () => {
 
 	return (
 		<div>
-			<h2>Add a New Recipe</h2>
+			<h2>{selectedRecipe ? "Edit" : "Add"} Recipe</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="name">Name:</label>
@@ -95,7 +115,7 @@ const RecipeForm = () => {
 						onChange={(event) => setTime(event.target.value)}
 					/>
 				</div>
-				<button type="submit">Submit</button>
+				<button type="submit">{selectedRecipe ? "Save" : "Submit"}</button>
 			</form>
 		</div>
 	);

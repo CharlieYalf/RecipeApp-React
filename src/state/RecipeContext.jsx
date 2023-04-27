@@ -5,6 +5,7 @@ const initialState = {
 	recipes: [],
 	loading: true,
 	error: null,
+	selectedRecipe: null,
 };
 
 export const RecipeContext = createContext(initialState);
@@ -46,6 +47,24 @@ const reducer = (state, action) => {
 				...state,
 				loading: false,
 				error: action.payload,
+			};
+		case "EDIT_RECIPES":
+			return {
+				...state,
+				recipes: state.recipes.map((recipe) =>
+					recipe.id === action.payload._id ? action.payload : recipe
+				),
+			};
+		case "SET_SELECTED_RECIPE":
+			return {
+				...state,
+				selectedRecipe: action.payload,
+			};
+		case "DELETE_RECIPE":
+			return {
+				...state,
+				recipes: state.recipes.filter((recipe) => recipe._id !== action.payload),
+				selectedRecipe: state.selectedRecipe ? (state.selectedRecipe._id === action.payload ? null : state.selectedRecipe) : null
 			};
 		default:
 			return state;
@@ -96,8 +115,55 @@ export const RecipeProvider = ({ children }) => {
 		}
 	};
 
+	const editRecipe = async (id, updatedRecipe) => {
+		dispatch({ type: "POST_RECIPES_REQUEST" });
+		try {
+			const response = await axios.put(
+				`https://recipeapp-server.jordanmorris5.repl.co/api/recipes/${id}`,
+				updatedRecipe
+			);
+			dispatch({
+				type: "EDIT_RECIPES",
+				payload: response.data,
+			});
+		} catch (error) {
+			dispatch({
+				type: "POST_RECIPES_FAILURE",
+				payload: error.message,
+			});
+		}
+	};
+
+	const deleteRecipe = async (id) => {
+		dispatch({
+			type: "POST_RECIPES_REQUEST",
+		});
+		try {
+			await axios.delete(
+				`https://recipeapp-server.jordanmorris5.repl.co/api/recipes/${id}`
+			);
+			dispatch({
+				type: "DELETE_RECIPE",
+				payload: id,
+			});
+		} catch (error) {
+			dispatch({
+				type: "POST_RECIPES_FAILURE",
+				payload: error.message,
+			});
+		}
+	};
+
+	const setSelectedRecipe = (recipe) => {
+		dispatch({
+			type: "SET_SELECTED_RECIPE",
+			payload: recipe,
+		});
+		console.log(recipe);
+	};
+
 	return (
-		<RecipeContext.Provider value={{ ...state, postRecipe }}>
+		<RecipeContext.Provider value={{ ...state, postRecipe, editRecipe, setSelectedRecipe, deleteRecipe }}>
 			{children}
 		</RecipeContext.Provider>
 	);
