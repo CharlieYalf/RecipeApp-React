@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Link, Routes } from "react-router-dom";
+import RecipeForm from "./components/RecipeForm";
 import RecipeList from "./components/RecipeList";
 import { RecipeProvider } from "./state/RecipeContext";
 
@@ -15,6 +16,7 @@ export default function App() {
 			</nav>
 			<main>
 				<RecipeProvider>
+					<RecipeForm />
 					<RecipeList />
 				</RecipeProvider>
 			</main>

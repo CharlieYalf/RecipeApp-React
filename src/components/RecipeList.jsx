@@ -1,8 +1,8 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext } from "react";
 import { RecipeContext } from "../state/RecipeContext";
+import RecipeItem from "./RecipeItem";
 
-function RecipeList() {
-
+const RecipeList = () => {
 	const { recipes, loading, error } = useContext(RecipeContext);
 
 	if (loading) {
@@ -14,16 +14,12 @@ function RecipeList() {
 	}
 
 	return (
-		<Fragment>
-			<h1>Recipe List</h1>
-			<ul>
-				{recipes.map((recipe) => (
-					<li key={recipe._id}>{recipe.name}</li>
-				))}
-			</ul>
-		</Fragment >
+		<div>
+			{recipes.map((recipe) => (
+				<RecipeItem key={recipe._id} recipe={recipe} />
+			))}
+		</div>
 	);
-
-}
+};
 
 export default RecipeList;
