@@ -12,6 +12,13 @@ export const RecipeContext = createContext(initialState);
 
 const reducer = (state, action) => {
 	switch (action.type) {
+		case "FETCH_RECIPE_SUCCESS":
+			return {
+				...state,
+				selectedRecipe: action.payload,
+				loading: false,
+				error: null
+			};
 		case "FETCH_RECIPES_REQUEST":
 			return {
 				...state,
@@ -153,6 +160,17 @@ export const RecipeProvider = ({ children }) => {
 			});
 		}
 	};
+	const fetchRecipe = async (id) => {
+		dispatch({ type: "FETCH_RECIPE_REQUEST" });
+		try {
+			const { data } = await axios.get(
+				`https://recipeapp-server.jordanmorris5.repl.co/api/recipes/${id}`
+			);
+			dispatch({ type: "FETCH_RECIPE_SUCCESS", payload: data });
+		} catch (error) {
+			dispatch({ type: "FETCH_RECIPE_FAILURE", payload: error.message });
+		}
+	};
 
 	const setSelectedRecipe = (recipe) => {
 		dispatch({
@@ -163,7 +181,7 @@ export const RecipeProvider = ({ children }) => {
 	};
 
 	return (
-		<RecipeContext.Provider value={{ ...state, postRecipe, editRecipe, setSelectedRecipe, deleteRecipe }}>
+		<RecipeContext.Provider value={{ ...state, postRecipe, editRecipe, setSelectedRecipe, deleteRecipe, fetchRecipe }}>
 			{children}
 		</RecipeContext.Provider>
 	);
