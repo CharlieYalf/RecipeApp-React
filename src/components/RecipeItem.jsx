@@ -4,7 +4,7 @@ import { RecipeContext } from "../state/RecipeContext";
 import "../styles/RecipeItem.css";
 
 const RecipeItem = ({ recipe, onEditClick, onDeleteClick }) => {
-	const { name, ingredients, instructions, time, id } = recipe;
+	const { name, ingredients, instructions, time, url, id } = recipe;
 	const { fetchRecipe } = useContext(RecipeContext);
 
 	const handleViewDetailsClick = (id) => {

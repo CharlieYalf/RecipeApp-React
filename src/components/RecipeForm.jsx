@@ -9,6 +9,7 @@ const RecipeForm = () => {
 	const [ingredients, setIngredients] = useState([]);
 	const [instructions, setInstructions] = useState([]);
 	const [time, setTime] = useState("");
+	const [location, setLocation] = useState("");
 
 	// update state if there is a selected recipe
 	useEffect(() => {
@@ -17,11 +18,13 @@ const RecipeForm = () => {
 			setIngredients(selectedRecipe.ingredients);
 			setInstructions(selectedRecipe.instructions);
 			setTime(selectedRecipe.time);
+			setLocation(selectedRecipe.location);
 		} else {
 			setName("");
 			setIngredients([]);
 			setInstructions([]);
 			setTime("");
+			setLocation("");
 		}
 	}, [selectedRecipe]);
 
@@ -32,6 +35,7 @@ const RecipeForm = () => {
 			ingredients,
 			instructions,
 			time,
+			location
 		};
 		if (selectedRecipe) {
 			editRecipe(selectedRecipe._id, newRecipe);
@@ -42,6 +46,7 @@ const RecipeForm = () => {
 		setIngredients([]);
 		setInstructions([]);
 		setTime("");
+		setLocation("");
 	};
 
 	const handleIngredientChange = (event, index) => {
@@ -92,6 +97,7 @@ const RecipeForm = () => {
 						onChange={(event) => setName(event.target.value)}
 					/>
 				</div>
+
 				<div className="recipe-form__field">
 					<label className="recipe-form__label" htmlFor="ingredients">
 						Ingredients:
@@ -162,6 +168,18 @@ const RecipeForm = () => {
 						value={time}
 						min="1"
 						onChange={(event) => setTime(event.target.value)}
+					/>
+				</div>
+				<div className="recipe-form__field">
+					<label className="recipe-form__label" htmlFor="location">
+						Location
+					</label>
+					<input
+						className="recipe-form__input"
+						type="text"
+						name="location"
+						value={location}
+						onChange={(event) => setLocation(event.target.value)}
 					/>
 				</div>
 				<button className="recipe-form__button" type="submit">

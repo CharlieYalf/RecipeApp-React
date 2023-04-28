@@ -13,14 +13,18 @@ export default function RecipeDetail({ match }) {
 	if (error || !selectedRecipe) {
 		return <div>{`Error: ${error}`}</div>;
 	}
-	const { name, ingredients, instructions, time } = selectedRecipe;
+	const { name, ingredients, instructions, time, location } = selectedRecipe;
 
 	return (
 		<div className="recipe-detail">
 			<div className="recipe-detail__header">
 				<h2 className="recipe-detail__title">{name}</h2>
 			</div>
+
 			<div className="recipe-detail__body">
+				<div className="recipe-detail__ingredients">
+					{location}
+				</div>
 				<div className="recipe-detail__time">
 					<span className="recipe-detail__icon" role="img" aria-label="Time icon">
 						🕓
