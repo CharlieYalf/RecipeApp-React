@@ -10,11 +10,11 @@ export default function RecipeList() {
 	const { search } = useLocation();
 
 	const handleEditClick = (recipe) => {
-		setSelectedRecipe(recipe); // set the selected recipe to the clicked recipe
+		setSelectedRecipe(recipe);
 	};
 
 	const handleDeleteClick = (id) => {
-		deleteRecipe(id); // delete the recipe with the specified id
+		deleteRecipe(id);
 	};
 
 	if (loading) {
@@ -31,14 +31,18 @@ export default function RecipeList() {
 		? recipes.filter(recipe => recipe.name.toLowerCase().includes(query.toLowerCase()))
 		: recipes;
 
+	if (filteredRecipes.length === 0 && query) {
+		return <div>No recipes found matching search parameters</div>; // Display 404 error message here
+	}
+
 	return (
 		<div>
 			{filteredRecipes.map((recipe, index) => (
 				<RecipeItem
 					key={recipe._id}
 					recipe={recipe}
-					onEditClick={() => handleEditClick(recipe)} // pass function to handle edit clicks
-					onDeleteClick={() => handleDeleteClick(recipe._id)} // pass function to handle delete clicks
+					onEditClick={() => handleEditClick(recipe)}
+					onDeleteClick={() => handleDeleteClick(recipe._id)}
 				/>
 			))}
 		</div>

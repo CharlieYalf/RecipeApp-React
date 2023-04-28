@@ -14,12 +14,12 @@ export default function App() {
 				<Navbar />
 				<main>
 					<RecipeProvider>
-						<RecipeSearch />
 						<Routes>
 							<Route path="/" element={<div>Home Page</div>} />
-							<Route path="/recipes" element={<div><RecipeForm /><RecipeList /></div>} />
-							<Route path="/recipe/search" element={<RecipeList />} />
+							<Route path="/recipes" element={<RecipeList />} />
+							<Route path="/recipe/search" element={<div><RecipeSearch /><RecipeList /></div>} />
 							<Route path="/recipe/:id" element={<RecipeDetail />} />
+							<Route path="/recipe/create" element={<RecipeForm />} />
 						</Routes>
 					</RecipeProvider>
 				</main>
