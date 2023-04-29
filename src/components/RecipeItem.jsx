@@ -17,9 +17,6 @@ const RecipeItem = ({ recipe, onEditClick, onDeleteClick }) => {
 
 			<p className="recipe-item__time">{time} minutes</p>
 			<div className="recipe-item__buttons">
-				<button className="recipe-item__button" onClick={onEditClick}>
-					Edit
-				</button>
 				<button className="recipe-item__button" onClick={onDeleteClick}>
 					Delete
 				</button>
