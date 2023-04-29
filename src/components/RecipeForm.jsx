@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { RecipeContext } from "../state/RecipeContext";
+import { useNavigate } from "react-router-dom";
 import "../styles/RecipeForm.css";
 
 const RecipeForm = () => {
@@ -10,6 +11,8 @@ const RecipeForm = () => {
 	const [instructions, setInstructions] = useState([]);
 	const [time, setTime] = useState("");
 	const [location, setLocation] = useState("");
+	const navigate = useNavigate();
+
 
 	// update state if there is a selected recipe
 	useEffect(() => {
@@ -28,7 +31,7 @@ const RecipeForm = () => {
 		}
 	}, [selectedRecipe]);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const newRecipe = {
 			name,
@@ -38,9 +41,11 @@ const RecipeForm = () => {
 			location
 		};
 		if (selectedRecipe) {
-			editRecipe(selectedRecipe._id, newRecipe);
+			await editRecipe(selectedRecipe._id, newRecipe);
+			navigate(`/recipe/${selectedRecipe._id}`);
 		} else {
-			postRecipe(newRecipe);
+			await postRecipe(newRecipe);
+			navigate(`/recipe/${newRecipe._id}`);
 		}
 		setName("");
 		setIngredients([]);

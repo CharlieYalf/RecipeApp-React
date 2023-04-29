@@ -18,7 +18,7 @@ export default function App() {
 							<Route path="/" element={<div>Home Page</div>} />
 							<Route path="/recipes" element={<RecipeList />} />
 							<Route path="/recipe/search" element={<div><RecipeSearch /><RecipeList /></div>} />
-							<Route path="/recipe/:id" element={<RecipeDetail />} />
+							<Route path="/recipe/:id" element={<div><RecipeDetail /><RecipeForm /></div>} />
 							<Route path="/recipe/create" element={<RecipeForm />} />
 						</Routes>
 					</RecipeProvider>

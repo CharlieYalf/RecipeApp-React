@@ -109,9 +109,7 @@ export const RecipeProvider = ({ children }) => {
 	}, []);
 
 	const postRecipe = async (recipe) => {
-		dispatch({
-			type: "POST_RECIPES_REQUEST",
-		});
+		dispatch({ type: "POST_RECIPES_REQUEST" });
 		try {
 			const response = await axios.post(
 				"https://recipeapp-server.jordanmorris5.repl.co/api/recipes",
@@ -119,6 +117,10 @@ export const RecipeProvider = ({ children }) => {
 			);
 			dispatch({
 				type: "POST_RECIPES_SUCCESS",
+				payload: response.data,
+			});
+			dispatch({
+				type: "SET_SELECTED_RECIPE",
 				payload: response.data,
 			});
 		} catch (error) {
@@ -129,20 +131,24 @@ export const RecipeProvider = ({ children }) => {
 		}
 	};
 
-	const editRecipe = async (id, updatedRecipe) => {
-		dispatch({ type: "POST_RECIPES_REQUEST" });
+	const editRecipe = async (id, recipe) => {
+		dispatch({ type: "EDIT_RECIPES_REQUEST" });
 		try {
 			const response = await axios.put(
 				`https://recipeapp-server.jordanmorris5.repl.co/api/recipes/${id}`,
-				updatedRecipe
+				recipe
 			);
 			dispatch({
-				type: "EDIT_RECIPES",
+				type: "EDIT_RECIPES_SUCCESS",
+				payload: response.data,
+			});
+			dispatch({
+				type: "SET_SELECTED_RECIPE",
 				payload: response.data,
 			});
 		} catch (error) {
 			dispatch({
-				type: "POST_RECIPES_FAILURE",
+				type: "EDIT_RECIPES_FAILURE",
 				payload: error.message,
 			});
 		}
